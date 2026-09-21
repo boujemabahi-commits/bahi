@@ -13,6 +13,14 @@ class Enrollment extends Model
 
     public const STATUSES = ['مكتمل', 'جزئي', 'غير مؤدي'];
 
+    /** Predefined subscription packages: months → display label. */
+    public const PACKS = [
+        1 => 'شهري (شهر واحد)',
+        3 => 'باقة 3 أشهر',
+        6 => 'باقة 6 أشهر',
+        12 => 'باقة سنة كاملة',
+    ];
+
     /** Enrollment payment status → Student financial_status. */
     public const FINANCIAL_STATUS_MAP = [
         'مكتمل' => 'مؤدي',
@@ -29,6 +37,7 @@ class Enrollment extends Model
         'due_date',
         'price',
         'discount',
+        'duration_months',
         'remaining',
         'status',
     ];
@@ -39,6 +48,11 @@ class Enrollment extends Model
             'date' => 'date',
             'due_date' => 'date',
         ];
+    }
+
+    public function getPackLabelAttribute(): string
+    {
+        return self::PACKS[(int) $this->duration_months] ?? "باقة {$this->duration_months} أشهر";
     }
 
     public function getIsOverdueAttribute(): bool
@@ -131,10 +145,11 @@ class Enrollment extends Model
         $paid = $this->paid + max(0, $amount);
         $settled = self::settle((int) $this->price, (int) $this->discount, $paid);
 
-        // Settling a due/overdue period in full moves the deadline to next month —
-        // otherwise the monthly rollover would flip it straight back to unpaid.
+        // Settling a due/overdue period in full moves the deadline to the end of
+        // the paid package (1 month for a monthly plan, more for a multi-month
+        // pack) — otherwise the rollover would flip it straight back to unpaid.
         if ($settled['status'] === 'مكتمل' && $this->status !== 'مكتمل' && $this->due_date && $this->due_date->lte(today())) {
-            $settled['due_date'] = $this->due_date->copy()->addMonth();
+            $settled['due_date'] = $this->due_date->copy()->addMonths(max(1, (int) $this->duration_months));
         }
 
         $this->forceFill($settled)->save();

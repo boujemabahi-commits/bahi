@@ -50,6 +50,7 @@
                         <th class="table-head-cell">الدورة</th>
                         <th class="table-head-cell">المجموعة</th>
                         <th class="table-head-cell">تاريخ التسجيل</th>
+                        <th class="table-head-cell">الباقة</th>
                         <th class="table-head-cell">الاستحقاق</th>
                         <th class="table-head-cell">السعر</th>
                         <th class="table-head-cell">الخصم</th>
@@ -75,6 +76,9 @@
                             <td class="table-cell">{{ $r->group?->name ?? '—' }}</td>
                             <td class="table-cell ltr-nums">{{ $r->date->format('Y-m-d') }}</td>
                             <td class="table-cell">
+                                <span class="inline-flex items-center rounded-full bg-ink-50 px-2.5 py-1 text-[11px] font-semibold text-ink-600">{{ $r->pack_label }}</span>
+                            </td>
+                            <td class="table-cell">
                                 @if ($r->due_date)
                                     <span class="ltr-nums {{ $r->is_overdue ? 'text-red-600 font-semibold' : '' }}">{{ $r->due_date->format('Y-m-d') }}</span>
                                     @if ($r->is_overdue)
@@ -97,7 +101,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="10">
+                            <td colspan="11">
                                 <x-empty-state icon="clipboard-list" title="لا توجد تسجيلات" description="لم يتم العثور على أي تسجيل مطابق لبحثك أو الفلاتر المحددة." />
                             </td>
                         </tr>
@@ -116,6 +120,9 @@
                             <p class="text-xs text-ink-400 truncate">{{ $r->course?->name ?? '—' }} · {{ $r->group?->name ?? '—' }}</p>
                         </div>
                         <x-status-badge :label="$r->status" :tone="$statusTone[$r->status] ?? 'neutral'" />
+                    </div>
+                    <div class="flex items-center gap-2 mb-1.5">
+                        <span class="inline-flex items-center rounded-full bg-ink-50 px-2.5 py-1 text-[11px] font-semibold text-ink-600">{{ $r->pack_label }}</span>
                     </div>
                     <div class="flex items-center justify-between text-xs text-ink-500 ltr-nums">
                         <span>{{ $r->date->format('Y-m-d') }}</span>
@@ -229,6 +236,16 @@
                         @endif
                         @error('student_id') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                     </div>
+                    <div>
+                        <label class="block text-sm font-medium text-ink-700 mb-1.5">نوع الاشتراك</label>
+                        <select class="select" wire:model.live="duration_months">
+                            @foreach ($packOptions as $months => $label)
+                                <option value="{{ $months }}">{{ $label }}</option>
+                            @endforeach
+                        </select>
+                        <p class="text-[11px] text-ink-400 mt-1">يقترح السعر تلقائياً حسب مدة الباقة (قابل للتعديل يدوياً)</p>
+                        @error('duration_months') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
+                    </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-sm font-medium text-ink-700 mb-1.5">تاريخ التسجيل</label>
@@ -238,7 +255,7 @@
                         <div>
                             <label class="block text-sm font-medium text-ink-700 mb-1.5">تاريخ الاستحقاق</label>
                             <input type="date" wire:model="due_date" class="input ps-3 ltr-nums" />
-                            <p class="text-[11px] text-ink-400 mt-1">بعده يُعتبر الطالب غير مؤدٍ للشهر الجديد</p>
+                            <p class="text-[11px] text-ink-400 mt-1">بعده يُعتبر الطالب غير مؤدٍ للفترة الجديدة (حسب الباقة المختارة)</p>
                             @error('due_date') <p class="text-xs text-red-600 mt-1">{{ $message }}</p> @enderror
                         </div>
                     </div>

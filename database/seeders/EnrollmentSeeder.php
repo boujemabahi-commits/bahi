@@ -16,6 +16,9 @@ class EnrollmentSeeder extends Seeder
 {
     protected array $discounts = [0, 0, 50, 0, 100, 0, 0, 150];
 
+    /** Most students pay monthly; a few are on a multi-month pack. */
+    protected array $durations = [1, 1, 1, 3, 1, 1, 6, 1, 1, 1, 3, 12];
+
     public function run(): void
     {
         Tenant::all()->each(function (Tenant $tenant) {
@@ -25,7 +28,8 @@ class EnrollmentSeeder extends Seeder
                 ->orderBy('id')
                 ->get()
                 ->each(function (Student $student, int $i) use ($tenant) {
-                    $price = (int) ($student->course?->price ?? 900);
+                    $duration = $this->durations[$i % count($this->durations)];
+                    $price = (int) ($student->course?->price ?? 900) * $duration;
                     $discount = $this->discounts[$i % count($this->discounts)];
                     $net = $price - $discount;
 
@@ -40,7 +44,7 @@ class EnrollmentSeeder extends Seeder
                     // Paid-up students are due again later this month / next month;
                     // partial and unpaid ones are already past their due date.
                     $dueDate = $settled['status'] === 'مكتمل'
-                        ? today()->addDays(1 + ($i % 28))
+                        ? today()->addDays(1 + ($i % (28 * $duration)))
                         : today()->subDays(1 + ($i % 20));
 
                     Enrollment::create([
@@ -52,6 +56,7 @@ class EnrollmentSeeder extends Seeder
                         'due_date' => $dueDate,
                         'price' => $price,
                         'discount' => $discount,
+                        'duration_months' => $duration,
                     ] + $settled);
                 });
         });

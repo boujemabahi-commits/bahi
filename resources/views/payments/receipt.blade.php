@@ -82,7 +82,7 @@
         @if ($enrollment)
             <table class="w-full text-sm mt-5">
                 <tbody class="divide-y divide-ink-100">
-                    <tr><td class="py-2 text-ink-500">سعر الدورة (شهرياً)</td><td class="py-2 text-end ltr-nums font-semibold">{{ mad($enrollment->price) }}</td></tr>
+                    <tr><td class="py-2 text-ink-500">سعر الدورة ({{ $enrollment->pack_label }})</td><td class="py-2 text-end ltr-nums font-semibold">{{ mad($enrollment->price) }}</td></tr>
                     @if ($enrollment->discount > 0)
                         <tr><td class="py-2 text-ink-500">الخصم</td><td class="py-2 text-end ltr-nums font-semibold text-emerald-700">- {{ mad($enrollment->discount) }}</td></tr>
                     @endif

@@ -97,6 +97,7 @@
                             <tr>
                                 <th class="table-head-cell">الدورة</th>
                                 <th class="table-head-cell">المجموعة</th>
+                                <th class="table-head-cell">الباقة</th>
                                 <th class="table-head-cell">السعر</th>
                                 <th class="table-head-cell">الخصم</th>
                                 <th class="table-head-cell">المتبقي</th>
@@ -107,6 +108,7 @@
                             <tr>
                                 <td class="table-cell">{{ $enrollment->course?->name ?? '—' }}</td>
                                 <td class="table-cell">{{ $enrollment->group?->name ?? '—' }}</td>
+                                <td class="table-cell">{{ $enrollment->pack_label }}</td>
                                 <td class="table-cell ltr-nums">{{ mad($enrollment->price) }}</td>
                                 <td class="table-cell ltr-nums">{{ mad($enrollment->discount) }}</td>
                                 <td class="table-cell ltr-nums">{{ mad($enrollment->remaining) }}</td>
