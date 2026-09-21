@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'التقارير')
+@section('title', __('التقارير'))
 
 @section('content')
 @php
@@ -10,9 +10,9 @@
     ];
 @endphp
 
-<x-page-header title="التقارير" subtitle="تقارير شاملة حول جميع أنشطة المركز">
-    <button type="button" class="btn-secondary" data-toast="جاري تصدير التقرير... (تجريبي)">
-        <x-icon name="download" class="w-4 h-4" /> تصدير PDF
+<x-page-header :title="__('التقارير')" :subtitle="__('تقارير شاملة حول جميع أنشطة المركز')">
+    <button type="button" class="btn-secondary" data-toast="{{ __('جاري تصدير التقرير... (تجريبي)') }}">
+        <x-icon name="download" class="w-4 h-4" /> {{ __('تصدير PDF') }}
     </button>
 </x-page-header>
 
@@ -33,15 +33,15 @@
                     </div>
                 @endforeach
             </div>
-            <button type="button" class="btn-secondary justify-center mt-1" data-toast="فتح التقرير التفصيلي (تجريبي)">
-                عرض التفاصيل
+            <button type="button" class="btn-secondary justify-center mt-1" data-toast="{{ __('فتح التقرير التفصيلي (تجريبي)') }}">
+                {{ __('عرض التفاصيل') }}
                 <x-icon name="arrow-left" class="w-4 h-4" />
             </button>
         </div>
     @endforeach
 </div>
 
-<x-chart-container id="reportsRevenueChart" title="الإيرادات والمصاريف" subtitle="آخر 6 أشهر">
+<x-chart-container id="reportsRevenueChart" :title="__('الإيرادات والمصاريف')" :subtitle="__('آخر 6 أشهر')">
     <span class="text-xs text-ink-400">MAD</span>
 </x-chart-container>
 
@@ -57,13 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
         data: {
             labels: {!! json_encode($revenue['labels'], JSON_UNESCAPED_UNICODE) !!},
             datasets: [
-                { label: 'الإيرادات', data: {!! json_encode($revenue['revenue']) !!}, backgroundColor: '#10b981', borderRadius: 6 },
-                { label: 'المصاريف', data: {!! json_encode($revenue['expenses']) !!}, backgroundColor: '#f43f5e', borderRadius: 6 },
+                { label: {!! json_encode(__('الإيرادات'), JSON_UNESCAPED_UNICODE) !!}, data: {!! json_encode($revenue['revenue']) !!}, backgroundColor: '#10b981', borderRadius: 6 },
+                { label: {!! json_encode(__('المصاريف'), JSON_UNESCAPED_UNICODE) !!}, data: {!! json_encode($revenue['expenses']) !!}, backgroundColor: '#f43f5e', borderRadius: 6 },
             ],
         },
         options: {
             responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { position: 'bottom', rtl: true, labels: { font: { family: 'Cairo' } } } },
+            plugins: { legend: { position: 'bottom', rtl: {{ \App\Support\Locales::direction() === 'rtl' ? 'true' : 'false' }}, labels: { font: { family: 'Cairo' } } } },
             scales: { y: { beginAtZero: true }, x: { reverse: true } },
         },
     });

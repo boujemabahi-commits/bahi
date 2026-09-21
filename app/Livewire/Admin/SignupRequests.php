@@ -45,7 +45,7 @@ class SignupRequests extends Component
 
         // Someone may have registered this email since the request was filed.
         if (User::withoutGlobalScopes()->where('email', $request->owner_email)->exists()) {
-            $this->dispatch('toast', message: 'يوجد حساب بهذا البريد الإلكتروني بالفعل؛ لا يمكن قبول الطلب.');
+            $this->dispatch('toast', message: __('يوجد حساب بهذا البريد الإلكتروني بالفعل؛ لا يمكن قبول الطلب.'));
 
             return;
         }
@@ -76,7 +76,7 @@ class SignupRequests extends Component
             ])->save();
         });
 
-        $this->dispatch('toast', message: "تم تفعيل المركز «{$request->center_name}»");
+        $this->dispatch('toast', message: __('تم تفعيل المركز «:name»', ['name' => $request->center_name]));
     }
 
     public function openReject(int $id): void
@@ -98,7 +98,7 @@ class SignupRequests extends Component
         $this->validate(
             ['rejection_reason' => ['required', 'string', 'min:3', 'max:1000']],
             [],
-            ['rejection_reason' => 'سبب الرفض'],
+            ['rejection_reason' => __('سبب الرفض')],
         );
 
         $request = CenterSignupRequest::pending()->findOrFail($this->rejectingId);
@@ -110,7 +110,7 @@ class SignupRequests extends Component
         ])->save();
 
         $this->cancelReject();
-        $this->dispatch('toast', message: 'تم رفض الطلب');
+        $this->dispatch('toast', message: __('تم رفض الطلب'));
     }
 
     /** ASCII slug from the (usually Arabic) center name, suffixed on collision. */
@@ -138,6 +138,6 @@ class SignupRequests extends Component
             'requests' => $requests,
             'counts' => $counts,
             'rejecting' => $this->rejectingId ? CenterSignupRequest::find($this->rejectingId) : null,
-        ])->extends('layouts.admin')->section('content')->title('طلبات تسجيل المراكز');
+        ])->extends('layouts.admin')->section('content')->title(__('طلبات تسجيل المراكز'));
     }
 }

@@ -9,10 +9,18 @@ if (!function_exists('mad')) {
 }
 
 if (!function_exists('ar_date')) {
-    /** A simple Arabic-formatted Gregorian date, e.g. "الثلاثاء، 16 شتنبر 2026" */
+    /**
+     * A full weekday + date in the current UI language, e.g. "الثلاثاء، 16 شتنبر 2026"
+     * in Arabic, or "Tuesday, September 16, 2026" in English/French.
+     */
     function ar_date(?\DateTimeInterface $date = null): string
     {
         $date = $date ?? new \DateTime('now');
+        $carbon = \Carbon\Carbon::instance(\Carbon\Carbon::parse($date));
+
+        if (app()->getLocale() !== 'ar') {
+            return $carbon->locale(app()->getLocale())->translatedFormat('l, j F Y');
+        }
 
         $days = [
             'Sunday' => 'الأحد', 'Monday' => 'الاثنين', 'Tuesday' => 'الثلاثاء',

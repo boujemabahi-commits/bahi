@@ -34,23 +34,23 @@ class Index extends Component
 
         $this->validate(
             ['payAmount' => ['required', 'integer', 'min:1', 'max:'.max(1, (int) $row->remaining)]],
-            ['payAmount.max' => 'المبلغ يتجاوز المتبقي للأستاذ (:max MAD).'],
-            ['payAmount' => 'المبلغ'],
+            ['payAmount.max' => __('المبلغ يتجاوز المتبقي للأستاذ (:max MAD).')],
+            ['payAmount' => __('المبلغ')],
         );
 
         $row->recordPayment((int) $this->payAmount);
 
         Notification::notify([
-            'title' => 'تم دفع أجرة الأستاذ '.$row->teacher->name,
-            'body' => 'تم صرف '.mad((int) $this->payAmount).' من أجرة الأستاذ.',
+            'title' => __('تم دفع أجرة الأستاذ :teacher', ['teacher' => $row->teacher->name]),
+            'body' => __('تم صرف :amount من أجرة الأستاذ.', ['amount' => mad((int) $this->payAmount)]),
             'icon' => 'banknote',
             'tone' => 'brand',
-            'category' => 'المالية',
+            'category' => __('المالية'),
         ]);
 
         $this->dispatch('notification-created');
 
-        $this->dispatch('toast', message: 'تم تسجيل دفعة الأجرة بنجاح');
+        $this->dispatch('toast', message: __('تم تسجيل دفعة الأجرة بنجاح'));
         $this->closePay();
     }
 
@@ -77,6 +77,6 @@ class Index extends Component
             'rows' => $rows,
             'stats' => $stats,
             'paying' => $paying,
-        ])->extends('layouts.app')->section('content')->title('أجور الأساتذة');
+        ])->extends('layouts.app')->section('content')->title(__('أجور الأساتذة'));
     }
 }

@@ -21,35 +21,35 @@ class ReportsController extends Controller
         $enrollmentsThisMonth = Enrollment::whereYear('date', now()->year)->whereMonth('date', now()->month)->count();
 
         $sections = [
-            ['title' => 'تقارير الطلاب', 'icon' => 'users', 'tone' => 'brand', 'stats' => [
-                'إجمالي الطلاب' => Student::count(),
-                'تسجيلات جديدة (شهرياً)' => $enrollmentsThisMonth,
-                'معدل الاستمرارية' => Analytics::retentionRate().'%',
+            ['title' => __('تقارير الطلاب'), 'icon' => 'users', 'tone' => 'brand', 'stats' => [
+                __('إجمالي الطلاب') => Student::count(),
+                __('تسجيلات جديدة (شهرياً)') => $enrollmentsThisMonth,
+                __('معدل الاستمرارية') => Analytics::retentionRate().'%',
             ]],
-            ['title' => 'التسجيلات', 'icon' => 'clipboard-list', 'tone' => 'blue', 'stats' => [
-                'هذا الشهر' => $enrollmentsThisMonth,
-                'إجمالي التسجيلات' => Enrollment::count(),
-                'متوسط قيمة التسجيل' => mad(Analytics::averageEnrollmentValue()),
+            ['title' => __('التسجيلات'), 'icon' => 'clipboard-list', 'tone' => 'blue', 'stats' => [
+                __('هذا الشهر') => $enrollmentsThisMonth,
+                __('إجمالي التسجيلات') => Enrollment::count(),
+                __('متوسط قيمة التسجيل') => mad(Analytics::averageEnrollmentValue()),
             ]],
-            ['title' => 'الإيرادات', 'icon' => 'banknote', 'tone' => 'violet', 'stats' => [
-                "إيرادات {$month}" => mad(Analytics::revenueThisMonth()),
-                'نسبة التحصيل' => $collection['rate'].'%',
-                'مبالغ متبقية' => mad($collection['remaining']),
+            ['title' => __('الإيرادات'), 'icon' => 'banknote', 'tone' => 'violet', 'stats' => [
+                __('إيرادات :month', ['month' => $month]) => mad(Analytics::revenueThisMonth()),
+                __('نسبة التحصيل') => $collection['rate'].'%',
+                __('مبالغ متبقية') => mad($collection['remaining']),
             ]],
-            ['title' => 'المصاريف', 'icon' => 'receipt', 'tone' => 'rose', 'stats' => [
-                "مصاريف {$month}" => mad($expenses['total_this_month']),
-                'أكبر فئة' => $expenses['biggest_category'],
-                'المعدل اليومي' => mad($expenses['avg_daily']),
+            ['title' => __('المصاريف'), 'icon' => 'receipt', 'tone' => 'rose', 'stats' => [
+                __('مصاريف :month', ['month' => $month]) => mad($expenses['total_this_month']),
+                __('أكبر فئة') => __($expenses['biggest_category']),
+                __('المعدل اليومي') => mad($expenses['avg_daily']),
             ]],
-            ['title' => 'أجور الأساتذة', 'icon' => 'wallet', 'tone' => 'amber', 'stats' => [
-                'إجمالي الأجور' => mad($salaries['total']),
-                'المدفوع' => mad($salaries['paid']),
-                'المتبقي' => mad($salaries['remaining']),
+            ['title' => __('أجور الأساتذة'), 'icon' => 'wallet', 'tone' => 'amber', 'stats' => [
+                __('إجمالي الأجور') => mad($salaries['total']),
+                __('المدفوع') => mad($salaries['paid']),
+                __('المتبقي') => mad($salaries['remaining']),
             ]],
-            ['title' => 'الحضور', 'icon' => 'calendar-check', 'tone' => 'teal', 'stats' => [
-                'معدل الحضور العام' => $attendance['rate'].'%',
-                'حالات الغياب' => $attendance['absences'],
-                'حالات التأخر' => $attendance['lateness'],
+            ['title' => __('الحضور'), 'icon' => 'calendar-check', 'tone' => 'teal', 'stats' => [
+                __('معدل الحضور العام') => $attendance['rate'].'%',
+                __('حالات الغياب') => $attendance['absences'],
+                __('حالات التأخر') => $attendance['lateness'],
             ]],
         ];
 

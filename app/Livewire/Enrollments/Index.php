@@ -80,7 +80,7 @@ class Index extends Component
             'date' => ['required', 'date'],
             'due_date' => ['nullable', 'date', function ($attribute, $value, $fail) {
                 if ($value && $this->date && $value < $this->date) {
-                    $fail('يجب أن يكون تاريخ الاستحقاق بعد تاريخ التسجيل أو مساوياً له.');
+                    $fail(__('يجب أن يكون تاريخ الاستحقاق بعد تاريخ التسجيل أو مساوياً له.'));
                 }
             }],
             'price' => ['required', 'integer', 'min:0'],
@@ -90,17 +90,20 @@ class Index extends Component
         ];
     }
 
-    protected array $validationAttributes = [
-        'student_id' => 'الطالب',
-        'course_id' => 'الدورة',
-        'group_id' => 'المجموعة',
-        'date' => 'تاريخ التسجيل',
-        'due_date' => 'تاريخ الاستحقاق',
-        'price' => 'السعر',
-        'discount' => 'الخصم',
-        'paid' => 'المبلغ المؤدى',
-        'duration_months' => 'نوع الاشتراك',
-    ];
+    protected function validationAttributes(): array
+    {
+        return [
+            'student_id' => __('الطالب'),
+            'course_id' => __('الدورة'),
+            'group_id' => __('المجموعة'),
+            'date' => __('تاريخ التسجيل'),
+            'due_date' => __('تاريخ الاستحقاق'),
+            'price' => __('السعر'),
+            'discount' => __('الخصم'),
+            'paid' => __('المبلغ المؤدى'),
+            'duration_months' => __('نوع الاشتراك'),
+        ];
+    }
 
     public function mount(): void
     {
@@ -243,19 +246,19 @@ class Index extends Component
             }
 
             $enrollment->update($attributes);
-            $this->dispatch('toast', message: 'تم تحديث التسجيل بنجاح');
+            $this->dispatch('toast', message: __('تم تحديث التسجيل بنجاح'));
         } else {
             $enrollment = Enrollment::create($attributes);
             $enrollment->load(['student', 'course']);
             Notification::notify([
-                'title' => 'تم تسجيل طالب جديد',
-                'body' => "تم تسجيل {$enrollment->student?->name} في دورة {$enrollment->course?->name}.",
+                'title' => __('تم تسجيل طالب جديد'),
+                'body' => __('تم تسجيل :student في دورة :course.', ['student' => $enrollment->student?->name, 'course' => $enrollment->course?->name]),
                 'icon' => 'user-round-plus',
                 'tone' => 'brand',
-                'category' => 'التسجيلات',
+                'category' => __('التسجيلات'),
             ]);
             $this->dispatch('notification-created');
-            $this->dispatch('toast', message: 'تم تسجيل الطالب بنجاح');
+            $this->dispatch('toast', message: __('تم تسجيل الطالب بنجاح'));
         }
 
         $enrollment->syncStudent();
@@ -277,7 +280,7 @@ class Index extends Component
     {
         if ($this->confirmingDeleteId) {
             Enrollment::findOrFail($this->confirmingDeleteId)->delete();
-            $this->dispatch('toast', message: 'تم حذف التسجيل بنجاح');
+            $this->dispatch('toast', message: __('تم حذف التسجيل بنجاح'));
         }
         $this->confirmingDeleteId = null;
         $this->resetPage();
@@ -345,6 +348,6 @@ class Index extends Component
             'preview' => $preview,
             'statuses' => Enrollment::STATUSES,
             'packOptions' => Enrollment::PACKS,
-        ])->extends('layouts.app')->section('content')->title('التسجيلات');
+        ])->extends('layouts.app')->section('content')->title(__('التسجيلات'));
     }
 }

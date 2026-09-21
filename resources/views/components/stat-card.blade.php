@@ -1,7 +1,7 @@
 @php
     $tone = $tone ?? 'brand';
     $trend = $trend ?? null; // numeric or null
-    $trendLabel = $trendLabel ?? 'عن الشهر الماضي';
+    $trendLabel = $trendLabel ?? __('عن الشهر الماضي');
 
     $tones = [
         'brand'  => 'bg-brand-50 text-brand-600',

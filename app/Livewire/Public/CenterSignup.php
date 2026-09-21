@@ -59,7 +59,7 @@ class CenterSignup extends Component
     protected function messages(): array
     {
         return [
-            'owner_email.unique' => 'هذا البريد الإلكتروني مستخدم بالفعل أو لديه طلب قيد المراجعة.',
+            'owner_email.unique' => __('هذا البريد الإلكتروني مستخدم بالفعل أو لديه طلب قيد المراجعة.'),
         ];
     }
 

@@ -31,6 +31,7 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
+        'locale',
         'is_platform_admin',
         'email_verified_at',
     ];
@@ -80,6 +81,6 @@ class User extends Authenticatable
     {
         $role = $this->roles->first();
 
-        return $role ? ($role->display_name ?: $role->name) : '—';
+        return $role ? __($role->display_name ?: $role->name) : '—';
     }
 }

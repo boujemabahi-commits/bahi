@@ -18,9 +18,25 @@ use App\Livewire\Salaries\Index as SalariesIndex;
 use App\Livewire\Schedule\Index as ScheduleIndex;
 use App\Livewire\Students\Index as StudentsIndex;
 use App\Livewire\Teachers\Index as TeachersIndex;
+use App\Support\Locales;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/dashboard');
+
+// Switches the UI language for the current visitor: guests keep it for the
+// session, signed-in users get it saved on their account too.
+Route::get('/lang/{locale}', function (string $locale) {
+    abort_unless(Locales::isSupported($locale), 404);
+
+    session(['locale' => $locale]);
+
+    if (Auth::check()) {
+        Auth::user()->forceFill(['locale' => $locale])->save();
+    }
+
+    return redirect()->back();
+})->name('lang.switch');
 
 // Public: a prospective center asks to join. Creates a request only (see Phase 10).
 Route::get('/register-center', CenterSignup::class)->middleware('guest')->name('register-center');

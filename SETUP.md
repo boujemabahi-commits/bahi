@@ -1,4 +1,4 @@
-# TASYIIR — Setup
+# JadPro (formerly TASYIIR) — Setup
 
 TASYIIR (created by IAM Agency) is a real Laravel 12 + Livewire 3 + Tailwind application. The migration from the Phase 1 mockup is **complete**: every module runs on the database with tenant scoping, and `app/Support/Mock` no longer exists. See "What's real" below for the exact state, and "Not built" for what would be new product surface beyond the original brief.
 

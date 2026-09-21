@@ -1,4 +1,4 @@
-# TASYIIR
+# JadPro (formerly TASYIIR)
 
 TASYIIR (created by IAM Agency) is a multi-tenant SaaS for tutoring / language / coaching centers, in Arabic (RTL). It is a real Laravel 12 + Livewire 3 + Tailwind application with authentication, single-database multi-tenancy, per-center staff accounts with roles & permissions (owner / reception / accountant + custom roles), a reviewed public signup flow (`/register-center` → platform-admin approval at `/admin` → the center goes live), and every module — Students, Teachers, Courses, Groups, Enrollments, Attendance, Schedule, Payments (with printable receipts), Expenses, Salaries, Notifications, Dashboard, Reports, Statistics and Settings — running on the database. The migration from the Phase 1 mockup is complete; the mock data layer has been removed.
 

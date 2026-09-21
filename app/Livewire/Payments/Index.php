@@ -48,16 +48,19 @@ class Index extends Component
         ];
     }
 
-    protected array $validationAttributes = [
-        'student_id' => 'الطالب',
-        'amount' => 'المبلغ',
-        'method' => 'طريقة الدفع',
-        'date' => 'التاريخ',
-    ];
+    protected function validationAttributes(): array
+    {
+        return [
+            'student_id' => __('الطالب'),
+            'amount' => __('المبلغ'),
+            'method' => __('طريقة الدفع'),
+            'date' => __('التاريخ'),
+        ];
+    }
 
     protected function messages(): array
     {
-        return ['amount.max' => 'المبلغ يتجاوز المتبقي على الطالب (:max MAD).'];
+        return ['amount.max' => __('المبلغ يتجاوز المتبقي على الطالب (:max MAD).')];
     }
 
     public function mount(): void
@@ -120,7 +123,7 @@ class Index extends Component
 
         $enrollment = Enrollment::where('student_id', $data['student_id'])->latest('date')->latest('id')->first();
         if (! $enrollment) {
-            $this->addError('student_id', 'هذا الطالب ليس لديه تسجيل لتسديد رسومه.');
+            $this->addError('student_id', __('هذا الطالب ليس لديه تسجيل لتسديد رسومه.'));
 
             return;
         }
@@ -136,16 +139,16 @@ class Index extends Component
         ]);
 
         Notification::notify([
-            'title' => 'تم استلام دفعة جديدة',
-            'body' => 'دفعة بقيمة '.mad((int) $data['amount']).' من الطالب '.$enrollment->student?->name.'.',
+            'title' => __('تم استلام دفعة جديدة'),
+            'body' => __('دفعة بقيمة :amount من الطالب :student.', ['amount' => mad((int) $data['amount']), 'student' => $enrollment->student?->name]),
             'icon' => 'wallet',
             'tone' => 'blue',
-            'category' => 'المالية',
+            'category' => __('المالية'),
         ]);
 
         $this->dispatch('notification-created');
 
-        $this->dispatch('toast', message: 'تم تسجيل الدفعة بنجاح');
+        $this->dispatch('toast', message: __('تم تسجيل الدفعة بنجاح'));
         $this->closeModal();
     }
 
@@ -181,6 +184,6 @@ class Index extends Component
             'methods' => Payment::METHODS,
             'statuses' => Payment::STATUSES,
             'outstanding' => $this->outstandingFor($this->student_id),
-        ])->extends('layouts.app')->section('content')->title('أداءات الطلاب');
+        ])->extends('layouts.app')->section('content')->title(__('أداءات الطلاب'));
     }
 }

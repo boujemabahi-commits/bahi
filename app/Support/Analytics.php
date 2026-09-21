@@ -24,10 +24,12 @@ use Illuminate\Support\Facades\DB;
  */
 class Analytics
 {
-    /** Moroccan month names, matching ar_date() and the Phase 1 chart labels. */
+    /** Month name in the current UI language (Moroccan Arabic month names in ar). */
     public static function monthLabel(Carbon $month): string
     {
-        return $month->copy()->locale('ar_MA')->translatedFormat('F');
+        $locale = app()->getLocale() === 'ar' ? 'ar_MA' : app()->getLocale();
+
+        return $month->copy()->locale($locale)->translatedFormat('F');
     }
 
     /** The last $months calendar months, oldest first, each as its first day. */
@@ -71,12 +73,12 @@ class Analytics
         $enrollmentsLastMonth = Enrollment::whereYear('date', $prev->year)->whereMonth('date', $prev->month)->count();
 
         return [
-            ['label' => 'إجمالي الطلاب', 'value' => $students, 'icon' => 'users', 'tone' => 'brand', 'trend' => self::pctChange($studentsLastMonth, $students)],
-            ['label' => 'الأساتذة', 'value' => Teacher::count(), 'icon' => 'graduation-cap', 'tone' => 'blue', 'trend' => null],
-            ['label' => 'الدورات', 'value' => Course::count(), 'icon' => 'book-open', 'tone' => 'violet', 'trend' => null],
-            ['label' => 'المجموعات', 'value' => Group::count(), 'icon' => 'users-round', 'tone' => 'amber', 'trend' => null],
-            ['label' => 'الطلاب غير المؤدين', 'value' => Student::where('financial_status', 'غير مؤدي')->count(), 'icon' => 'triangle-alert', 'tone' => 'rose', 'trend' => null],
-            ['label' => 'التسجيلات هذا الشهر', 'value' => $enrollmentsThisMonth, 'icon' => 'clipboard-list', 'tone' => 'brand', 'trend' => self::pctChange($enrollmentsLastMonth, $enrollmentsThisMonth)],
+            ['label' => __('إجمالي الطلاب'), 'value' => $students, 'icon' => 'users', 'tone' => 'brand', 'trend' => self::pctChange($studentsLastMonth, $students)],
+            ['label' => __('الأساتذة'), 'value' => Teacher::count(), 'icon' => 'graduation-cap', 'tone' => 'blue', 'trend' => null],
+            ['label' => __('الدورات'), 'value' => Course::count(), 'icon' => 'book-open', 'tone' => 'violet', 'trend' => null],
+            ['label' => __('المجموعات'), 'value' => Group::count(), 'icon' => 'users-round', 'tone' => 'amber', 'trend' => null],
+            ['label' => __('الطلاب غير المؤدين'), 'value' => Student::where('financial_status', 'غير مؤدي')->count(), 'icon' => 'triangle-alert', 'tone' => 'rose', 'trend' => null],
+            ['label' => __('التسجيلات هذا الشهر'), 'value' => $enrollmentsThisMonth, 'icon' => 'clipboard-list', 'tone' => 'brand', 'trend' => self::pctChange($enrollmentsLastMonth, $enrollmentsThisMonth)],
         ];
     }
 

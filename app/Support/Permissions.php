@@ -61,6 +61,6 @@ class Permissions
 
     public static function label(string $permission): string
     {
-        return self::LABELS[$permission] ?? $permission;
+        return __(self::LABELS[$permission] ?? $permission);
     }
 }

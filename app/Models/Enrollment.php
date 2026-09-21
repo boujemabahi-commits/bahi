@@ -52,7 +52,7 @@ class Enrollment extends Model
 
     public function getPackLabelAttribute(): string
     {
-        return self::PACKS[(int) $this->duration_months] ?? "باقة {$this->duration_months} أشهر";
+        return __(self::PACKS[(int) $this->duration_months] ?? 'باقة :months أشهر', ['months' => $this->duration_months]);
     }
 
     public function getIsOverdueAttribute(): bool

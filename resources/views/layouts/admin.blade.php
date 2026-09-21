@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="h-full">
+<html lang="{{ app()->getLocale() }}" dir="{{ \App\Support\Locales::direction() }}" class="h-full">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#059669" />
-    <title>@yield('title', $title ?? 'لوحة المنصة') · TASYIIR</title>
+    <title>@yield('title', $title ?? __('لوحة المنصة')) · JadPro</title>
     <link rel="icon" href="/favicon.ico" sizes="any">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -13,17 +13,25 @@
 <body class="h-full bg-ink-50 font-sans text-ink-800 antialiased">
     <header class="bg-ink-950 text-white">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center gap-3">
-            <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand-500 text-white font-extrabold shrink-0">T</span>
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand-500 text-white font-extrabold shrink-0">J</span>
             <div class="leading-tight min-w-0">
-                <p class="font-extrabold truncate">TASYIIR <span class="text-ink-400 font-semibold">· لوحة المنصة</span></p>
-                <p class="text-[11px] text-ink-400 truncate">{{ auth()->user()?->name }} — مسؤول المنصة</p>
+                <p class="font-extrabold truncate">JadPro <span class="text-ink-400 font-semibold">· {{ __('لوحة المنصة') }}</span></p>
+                <p class="text-[11px] text-ink-400 truncate">{{ auth()->user()?->name }} — {{ __('مسؤول المنصة') }}</p>
             </div>
-            <form method="POST" action="{{ route('logout') }}" class="ms-auto">
-                @csrf
-                <button type="submit" class="btn-icon text-ink-300 hover:text-white hover:bg-white/10" aria-label="تسجيل الخروج" title="تسجيل الخروج">
-                    <x-icon name="log-out" class="w-[18px] h-[18px]" />
-                </button>
-            </form>
+            <div class="ms-auto flex items-center gap-2">
+                <div class="flex items-center gap-1 text-xs">
+                    @foreach (\App\Support\Locales::LABELS as $code => $label)
+                        <a href="{{ route('lang.switch', $code) }}"
+                            class="px-2 py-1 rounded-lg font-semibold {{ app()->getLocale() === $code ? 'bg-white/15 text-white' : 'text-ink-400 hover:bg-white/10' }}">{{ $label }}</a>
+                    @endforeach
+                </div>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn-icon text-ink-300 hover:text-white hover:bg-white/10" aria-label="{{ __('تسجيل الخروج') }}" title="{{ __('تسجيل الخروج') }}">
+                        <x-icon name="log-out" class="w-[18px] h-[18px]" />
+                    </button>
+                </form>
+            </div>
         </div>
     </header>
 
@@ -31,7 +39,7 @@
         @yield('content')
     </main>
 
-    <footer class="max-w-6xl mx-auto px-4 sm:px-6 py-6 text-xs text-ink-400">© {{ date('Y') }} TASYIIR — صُنع بواسطة IAM Agency</footer>
+    <footer class="max-w-6xl mx-auto px-4 sm:px-6 py-6 text-xs text-ink-400">© {{ date('Y') }} JadPro — {{ __('صُنع بواسطة') }} IAM Agency</footer>
 
     <x-toast-container />
     @livewireScripts

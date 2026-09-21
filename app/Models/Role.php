@@ -25,7 +25,7 @@ class Role extends SpatieRole
     /** What the UI shows: the plain name for built-in roles, display_name for custom ones. */
     public function getLabelAttribute(): string
     {
-        return $this->display_name ?: $this->name;
+        return $this->display_name ?: __($this->name);
     }
 
     public function getIsBuiltInAttribute(): bool
@@ -42,12 +42,12 @@ class Role extends SpatieRole
     public function getDescriptionAttribute(): string
     {
         if ($this->is_built_in) {
-            return Permissions::BUILT_IN_ROLES[$this->name]['description'] ?? '';
+            return __(Permissions::BUILT_IN_ROLES[$this->name]['description'] ?? '');
         }
 
-        $labels = $this->permissions->pluck('name')->map(fn ($p) => Permissions::LABELS[$p] ?? $p);
+        $labels = $this->permissions->pluck('name')->map(fn ($p) => Permissions::label($p));
 
-        return $labels->isEmpty() ? 'بدون صلاحيات' : $labels->implode('، ');
+        return $labels->isEmpty() ? __('بدون صلاحيات') : $labels->implode(__('، '));
     }
 
     /** Built-in roles plus the given tenant's own custom roles. */
