@@ -603,5 +603,18 @@
     "المستخدمون والصلاحيات": "Utilisateurs et permissions",
     "صلاحية كاملة على جميع وحدات النظام، بما فيها إدارة حسابات الموظفين": "Accès complet à tous les modules du système, y compris la gestion des comptes du personnel",
     "الطلاب، التسجيلات، المدفوعات، الحضور": "Élèves, inscriptions, paiements, présence",
-    "المصاريف، أجور الأساتذة، التقارير المالية": "Dépenses, salaires des enseignants, rapports financiers"
+    "المصاريف، أجور الأساتذة، التقارير المالية": "Dépenses, salaires des enseignants, rapports financiers",
+    "شهري (شهر واحد)": "Mensuel (1 mois)",
+    "باقة شهرين": "Forfait 2 mois",
+    "باقة 3 أشهر": "Forfait 3 mois",
+    "باقة 4 أشهر": "Forfait 4 mois",
+    "باقة 5 أشهر": "Forfait 5 mois",
+    "باقة 6 أشهر": "Forfait 6 mois",
+    "باقة 7 أشهر": "Forfait 7 mois",
+    "باقة 8 أشهر": "Forfait 8 mois",
+    "باقة 9 أشهر": "Forfait 9 mois",
+    "باقة 10 أشهر": "Forfait 10 mois",
+    "باقة 11 شهراً": "Forfait 11 mois",
+    "باقة سنة كاملة": "Forfait année complète",
+    "باقة :months أشهر": "Forfait :months mois"
 }

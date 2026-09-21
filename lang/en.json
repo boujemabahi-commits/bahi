@@ -603,5 +603,18 @@
     "المستخدمون والصلاحيات": "Users and permissions",
     "صلاحية كاملة على جميع وحدات النظام، بما فيها إدارة حسابات الموظفين": "Full access to all system modules, including managing staff accounts",
     "الطلاب، التسجيلات، المدفوعات، الحضور": "Students, enrollments, payments, attendance",
-    "المصاريف، أجور الأساتذة، التقارير المالية": "Expenses, teacher wages, financial reports"
+    "المصاريف، أجور الأساتذة، التقارير المالية": "Expenses, teacher wages, financial reports",
+    "شهري (شهر واحد)": "Monthly (1 month)",
+    "باقة شهرين": "2-month package",
+    "باقة 3 أشهر": "3-month package",
+    "باقة 4 أشهر": "4-month package",
+    "باقة 5 أشهر": "5-month package",
+    "باقة 6 أشهر": "6-month package",
+    "باقة 7 أشهر": "7-month package",
+    "باقة 8 أشهر": "8-month package",
+    "باقة 9 أشهر": "9-month package",
+    "باقة 10 أشهر": "10-month package",
+    "باقة 11 شهراً": "11-month package",
+    "باقة سنة كاملة": "Full-year package",
+    "باقة :months أشهر": ":months-month package"
 }
